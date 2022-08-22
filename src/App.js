@@ -2,28 +2,15 @@ import { useState } from "react";
 
 function App() {
   const [city, setCity] = useState("");
-  const [cityLat, setCityLat] = useState([]);
-  const [cityLon, setCityLon] = useState([]);
+  const [weatherForecast, setWeatherForecast] = useState(null);
 
   const handleChange = (event) => {
     setCity(event.target.value);
   };
 
-  const SearchForecastWeather = () => {
-    fetch(
-      `https://api.openweathermap.org/data/2.5/weather?lat=${cityLat}&lon=${cityLon}&appid=ce29c690f653f72ff0adbb3de5b6cb00&lang={pt}`
-    )
-      .then((response) => {
-        if (response.status === 200) {
-          return response.json();
-        }
-      })
-      .then((data) => console.log(data.main));
-  };
-
   const handleSearchCity = () => {
     fetch(
-      `http://api.openweathermap.org/geo/1.0/direct?q=${city}&limit=1&appid=ce29c690f653f72ff0adbb3de5b6cb00`
+      `https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=ce29c690f653f72ff0adbb3de5b6cb00&units=metric`
     )
       .then((response) => {
         if (response.status === 200) {
@@ -31,23 +18,21 @@ function App() {
         }
       })
       .then((data) => {
-        setCityLat(data.map((e) => e.lat));
-        setCityLon(data.map((e) => e.lon));
-
-        SearchForecastWeather();
+        console.log(data);
+        setWeatherForecast(data);
       });
   };
 
   return (
     <div>
-      <nav className="navbar navbar-expand navbar-dark bg-dark mb-4">
+      <nav className="navbar navbar-expand navbar-dark bg-dark mb-4 ">
         <a className="navbar-brand text-white" href=" ">
           {" "}
           Weather Finder{" "}
         </a>
       </nav>
 
-      <main className="container bg-secondary bg-opacity-25 rounded p-2">
+      <main className="container bg-secondary bg-opacity-25 rounded p-2 w-50">
         <div className="jumbotron">
           <h1>Find the weather forecast in your city !</h1>
           <p className="lead"> Enter your city name </p>
@@ -63,12 +48,49 @@ function App() {
           </div>
 
           <button
-            className="btn btn-primary btn-larg"
+            className="btn btn-primary btn-larg mb-2"
             onClick={handleSearchCity}
           >
             {" "}
             Search{" "}
           </button>
+
+          {weatherForecast ? (
+            <ul className="list-group">
+              <li className="list-group-item">
+                {" "}
+                Country: {weatherForecast.sys.country}{" "}
+              </li>
+              <li className="list-group-item">
+                {" "}
+                Humidity: {weatherForecast.main.humidity} %{" "}
+              </li>
+              <li className="list-group-item">
+                {" "}
+                Pressure: {weatherForecast.main.pressure} hPa
+              </li>
+              <li className="list-group-item">
+                {" "}
+                Temperature: {weatherForecast.main.temp} °C{" "}
+              </li>
+              <li className="list-group-item">
+                {" "}
+                Fells Like: {weatherForecast.main.feels_like} °C{" "}
+              </li>
+              <li className="list-group-item">
+                {" "}
+                Temperature Max: {weatherForecast.main.temp_max} °C{" "}
+              </li>
+              <li className="list-group-item">
+                {" "}
+                Temperature Min: {weatherForecast.main.temp_min} °C{" "}
+              </li>
+              <li className="list-group-item">
+                {" "}
+                Wind speed: {weatherForecast.wind.speed} m/s{" "}
+              </li>
+            </ul>
+          ) : null}
         </div>
       </main>
     </div>
