@@ -9,7 +9,7 @@ Web application that informs climate variables of cities
 # Images
 <img src="https://raw.githubusercontent.com/yjdutra/weather-finder/master/src/assets/img01.png" width="300" height="150"/>
 
-<img src="https://raw.githubusercontent.com/yjdutra/weather-finder/master/src/assets/img02.png" width="600" height="400"/>
+<img src="https://raw.githubusercontent.com/yjdutra/weather-finder/master/src/assets/img02.png" width="670" height="400"/>
 
 # Goal
 
